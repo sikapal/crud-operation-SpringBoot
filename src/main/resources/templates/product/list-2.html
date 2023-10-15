@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/default}">
+<head>
+<title>Products List</title>
+<meta charset="utf-8" />
+         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      
+     	<link rel="stylesheet"
+ href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+ integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+ crossorigin="anonymous">
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="d-flex flex-wrap mb-4">
+			<h1 class="flex-grow-1">Products</h1>
+			<div>
+				<a th:href="@{/products/add}" class="btn btn-primary ms-2">Add
+					New Product</a>
+			</div>
+		</div>
+		<div th:if="${products.empty}">No products found!</div>
+		<div th:if="${!products.empty}" class="table-responsive">
+			<table class="table table-striped table-hover align-middle">
+				<thead>
+					<tr>
+						<th scope="col">Id</th>
+						<th scope="col">Name</th>
+						<th scope="col">Price($)</th>
+						<th scope="col">Discount(%)</th>
+						<th scope="col">Stock Status</th>
+						<th scope="col">SKU</th>
+						<th>
+							<!-- -->
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="product : ${products}">
+						<td th:text="${product.id}" />
+						<td th:text="${product.name}" />
+						<td th:text="${product.price}" />
+						<td th:text="${product.discount}" />
+						<td th:text="${product.stockStatus}" />
+						<td th:text="${product.sku}" />
+						<td>
+							<div class="float-end text-nowrap">
+								<a th:href="@{/products/edit/{id}(id=${product.id})}"
+									class="btn btn-sm btn-info">Edit</a>
+								<form th:action="@{/products/delete/{id}(id=${product.id})}"
+									data-msg-confirm="Are you sure wants to delete?" method="post"
+									class="fom-submit-confirm d-inline">
+									<button type="submit" class="btn btn-sm btn-danger">Delete</button>
+								</form>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div th:if="${products != null}" class="row g-0">
+				<div class="col-sm-3">
+					<div sd:pagination-summary="">info</div>
+				</div>
+				<div class="col-sm-3">
+			           Show <span sd:page-size-selector="javascript"></span> entries
+			    </div>
+				<div class="col-sm-6">
+					<nav class="pull-right">
+						<ul class="pagination" sd:pagination-split="7" sd:pagination="full"></ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>

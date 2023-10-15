@@ -2,6 +2,10 @@ package com.skpcorp.crudOperation.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import com.skpcorp.crudOperation.domain.Product;
 import com.skpcorp.crudOperation.model.ProductDTO;
 import com.skpcorp.crudOperation.repos.ProductRepository;
@@ -19,11 +23,19 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public List<ProductDTO> findAll() {
-        final List<Product> products = (List<Product>) productRepository.findAll();
-        return products.stream()
+    public Page<ProductDTO> findAll(final Pageable pageable) {
+    	int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+    	final Page<Product> page = productRepository.findAll(pageable);
+        
+        List<ProductDTO> products = page.getContent()
+                .stream()
                 .map(product -> mapToDTO(product, new ProductDTO()))
                 .toList();
+        
+        return new PageImpl<ProductDTO>(products, 
+                PageRequest.of(currentPage, pageSize), 
+                page.getTotalElements());
     }
 
     @Override

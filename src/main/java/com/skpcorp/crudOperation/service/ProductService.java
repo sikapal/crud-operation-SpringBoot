@@ -1,11 +1,13 @@
 package com.skpcorp.crudOperation.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import com.skpcorp.crudOperation.model.ProductDTO;
-import java.util.List;
+
 
 public interface ProductService {
   
-	    List<ProductDTO> findAll();
+	    Page<ProductDTO> findAll(final Pageable pageable);
 
 	    ProductDTO get(Long id);
 

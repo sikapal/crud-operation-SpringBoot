@@ -1,5 +1,9 @@
 package com.skpcorp.crudOperation.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.skpcorp.crudOperation.model.ProductDTO;
 import com.skpcorp.crudOperation.service.ProductService;
+import com.skpcorp.crudOperation.util.PaginationUtil;
 
 import jakarta.validation.Valid;
 
@@ -29,16 +34,32 @@ public class ProductController {
 
     // to show products list page
     @GetMapping
-    public String list(final Model model) {
-        model.addAttribute("products", productService.findAll());
+    public String list(@PageableDefault(size = 3) final Pageable pageable,
+            final Model model) {
+    	Page<ProductDTO> page = productService.findAll(pageable);
+        model.addAttribute("products", page);
+        model.addAttribute("pageList", PaginationUtil.getPageList(page));
         return "product/list";
     }
 
+ // To demonstrate pagination using thymeleaf-spring-data-dialect
+    @GetMapping("pagination-2")
+    public String list_2(@SortDefault("id") final Pageable pageable,
+            final Model model) {
+    	
+    	Page<ProductDTO> page = productService.findAll(pageable);
+        model.addAttribute("products", page);
+        
+        return "product/list-2";
+    }
+    
+    
     // to show a page to add a product
     @GetMapping("/add")
     public String add(@ModelAttribute("product") final ProductDTO productDTO) {
         return "product/add";
     }
+    
 
     // To save a product in DB
     @PostMapping("/add")
