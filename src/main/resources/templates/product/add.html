@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/default}">
+    <head>
+         <title>add product</title>
+         <meta charset="utf-8" />
+         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+         <link th:href="@{/css/app.css}" rel="stylesheet" />
+         <script th:src="@{/js/app.js}" defer> </script>
+     	 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" 
+		  integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin = "anonymous" >
+		  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> </script> 
+	     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="d-flex flex-wrap mb-4">
+                <h1 class="flex-grow-1">Product Details</h1>
+                <div>
+                    <a th:href="@{/products}" class="btn btn-success">Add New Product</a>
+                </div>
+            </div>
+            
+            <form th:action="@{/products/add}" method="post" th:object="${product}">
+                <div class="row mb-3">
+		            <label for="name" class="col-md-2 col-form-label"><span>Name</span><span>*</span></label>
+		            <div class="col-md-10">
+		                <input type="text" th:field="*{name}" class="form-control" id="name" name="name">
+		                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></span>
+		            </div>
+		        </div>
+		        <div class="row mb-3">
+		            <label for="price" class="col-md-2 col-form-label"><span>Price($)</span><span>*</span></label>
+		            <div class="col-md-10">
+		                <input type="number" th:field="*{price}" class="form-control" id="price" name="price">
+		                <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger"></span>
+		            </div>
+		        </div>
+                <div class="row mb-3">
+		            <label for="discount" class="col-md-2 col-form-label"><span>Discount(%)</span></label>
+		            <div class="col-md-10">
+		                <input type="number" th:field="*{discount}" class="form-control" id="discount" name="discount">
+		                <span th:if="${#fields.hasErrors('discount')}" th:errors="*{discount}" class="text-danger"></span>
+		            </div>
+		        </div>
+                <div class="row mb-3">
+		            <label for="stockStatus" class="col-md-2 col-form-label"><span>Stock Status</span></label>
+		            <div class="col-md-10">
+		                <input type="text" th:field="*{stockStatus}" class="form-control" id="stockStatus" name="stockStatus">
+		                <span th:if="${#fields.hasErrors('stockStatus')}" th:errors="*{stockStatus}" class="text-danger"></span>
+		            </div>
+		        </div>
+		        <div class="row mb-3">
+		            <label for="stockStatus" class="col-md-2 col-form-label"><span>SKU</span></label>
+		            <div class="col-md-10">
+		                <input type="text" th:field="*{sku}" class="form-control" id="sku" name="sku">
+		                <span th:if="${#fields.hasErrors('sku')}" th:errors="*{sku}" class="text-danger"></span>
+		            </div>
+		        </div>            
+                <input type="submit" value="Add Product" class="btn btn-primary mt-4" />
+            </form>
+        </div>
+    </body>
+</html>
